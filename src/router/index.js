@@ -24,6 +24,7 @@ import UserPage from "../views/admin/UserPage.vue";
 import AdminDashboard from "../views/admin/AdminDashboard.vue";
 import LockerRentForm from "../views/admin/LockerRentForm.vue";
 import ProgramStudents from "../views/admin/ProgramStudents.vue";
+import AdminTransactions from "../views/admin/AdminTransactions.vue";
 
 const routes = [
   // ✅ Login
@@ -81,6 +82,7 @@ const routes = [
       { path: "audit", name: "AuditLogsPage", component: AuditLogsPage },
       { path: "support", name: "AdminSupportPage", component: AdminSupportPage },
       { path: "admin-dashboard", name: "AdminDashboard", component: AdminDashboard },
+       { path: "transactions", name: "AdminTransactions", component: AdminTransactions },
       {
         path: "locker-rent/:id",
         name: "LockerRentForm",

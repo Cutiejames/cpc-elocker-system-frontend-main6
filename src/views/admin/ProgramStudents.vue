@@ -280,18 +280,24 @@ export default {
       this.confirmModal.show = false;
     },
 
-    // ✅ Fetch Students
-    async fetchStudents() {
-      try {
-        const res = await axios.get(
-          `http://localhost:3001/students?course_id=${this.courseId}`
-        );
-        this.students = res.data;
-      } catch (err) {
-        console.error("Error fetching students:", err);
-      }
-    },
+async fetchStudents() {
+  try {
+    const token = localStorage.getItem("token");
+    // ✅ Correct backend endpoint
+    const res = await axios.get(
+      `http://localhost:3001/courses/${this.courseId}/students`,
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
 
+    console.log("Fetched students:", res.data);
+
+    // ✅ Ensure correct structure
+    this.students = res.data.students || res.data || [];
+  } catch (err) {
+    console.error("Error fetching students:", err);
+    this.showMessage("Error", "Failed to fetch students. Please check the backend.");
+  }
+},
     // ✅ Confirm Action (Enable/Disable)
     confirmAction(type, student) {
       const actionText = type === "disable" ? "Disable" : "Enable";

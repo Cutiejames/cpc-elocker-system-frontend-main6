@@ -180,3 +180,8 @@ const goToSignUp = () => {
 
 // checkAuthStatus();
 </script>
+<style scoped>
+  img{
+    border-radius: 100px;
+  }
+</style>

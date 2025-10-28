@@ -1,14 +1,18 @@
 // src/composables/useLogout.js
-import { useRouter } from "vue-router";
-
 export function useLogout() {
-  const router = useRouter();
+  const logout = ({ showAlert = true } = {}) => {
+    // 🧹 Remove auth data
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    sessionStorage.clear();
 
-  const logout = () => {
-    if (confirm("Are you sure you want to logout?")) {
-      localStorage.removeItem("authToken");
-      router.push("/");
+    // ✅ Optional alert
+    if (showAlert) {
+      alert("Logout successful!");
     }
+
+    // 🔁 Redirect to login page
+    window.location.href = "/";
   };
 
   return { logout };

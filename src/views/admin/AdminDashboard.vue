@@ -21,9 +21,8 @@
       <!-- Buttons -->
       <div class="d-flex flex-wrap gap-2 justify-content-center">
         <button class="btn btn-primary px-4 fw-semibold" @click="fetchAll">Apply</button>
-        <button class="btn btn-danger px-4 fw-semibold" @click="downloadReport">
-          Download PDF
-        </button>
+        <button class="btn btn-danger px-4 fw-semibold" @click="downloadReport">Download PDF</button>
+        <button class="btn btn-secondary" @click="goToTransactions">View All Transactions</button>
       </div>
     </div>
 
@@ -98,12 +97,18 @@
 import { ref, onMounted } from "vue";
 import axios from "axios";
 import Chart from "chart.js/auto";
+import { useRouter } from 'vue-router'
 
 const summary = ref({});
 const startDate = ref("2025-08-10");
 const endDate = ref("2025-09-10");
+const router = useRouter()
 
 let courseChart, tenantsChart, incomeChart, reservationChart;
+
+const goToTransactions = () => {
+  router.push('/TestDashboard/transactions')
+}
 
 // 📈 Summary Data
 const fetchSummary = async () => {

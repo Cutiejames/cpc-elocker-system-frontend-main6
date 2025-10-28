@@ -17,21 +17,23 @@
       </div>
     </div>
 
+    <!-- 📋 Table View (Desktop) -->
     <div class="table-container shadow-lg bg-white rounded-4 p-3 d-none d-xl-block">
       <table class="table table-hover align-middle text-center mb-0">
         <thead class="table-header">
           <tr>
-            <th>Rental ID</th>
-            <th>Locker Number</th>
+            <th>Student ID</th>
+            <th>Student Name</th>
+            <th>Locker No.</th>
             <th>Location (Course)</th>
             <th>Status</th>
             <th>Actions</th>
           </tr>
         </thead>
-
         <tbody>
           <tr v-for="rental in filteredRentals" :key="rental.rental_id">
-            <td>{{ rental.rental_id }}</td>
+            <td>{{ rental.stud_id }}</td>
+            <td>{{ rental.f_name }} {{ rental.l_name }}</td>
             <td>{{ rental.locker_number }}</td>
             <td>{{ rental.course_name }}</td>
             <td>
@@ -54,14 +56,14 @@
               <div class="d-flex justify-content-center gap-2">
                 <button
                   class="btn btn-approve shadow-sm"
-                  @click="approveReservation(rental.rental_id)"
+                  @click="showConfirmModal('approve', rental)"
                   :disabled="rental.status?.toLowerCase() === 'active'"
                 >
                   <i class="bi bi-check-circle me-1"></i> Approve
                 </button>
                 <button
                   class="btn btn-cancel shadow-sm"
-                  @click="cancelRental(rental.rental_id)"
+                  @click="showConfirmModal('cancel', rental)"
                   :disabled="rental.status?.toLowerCase() === 'active'"
                 >
                   <i class="bi bi-x-circle me-1"></i> Cancel
@@ -69,14 +71,14 @@
               </div>
             </td>
           </tr>
-
           <tr v-if="filteredRentals.length === 0">
-            <td colspan="5" class="text-muted fst-italic py-4">No rentals found</td>
+            <td colspan="7" class="text-muted fst-italic py-4">No rentals found</td>
           </tr>
         </tbody>
       </table>
     </div>
 
+    <!-- 📱 Card View (Mobile) -->
     <div class="card-container d-xl-none">
       <div class="scrollable-cards">
         <div
@@ -86,8 +88,11 @@
           @click="openDetailsModal(rental)"
         >
           <div class="card-row">
-            <div><strong>ID:</strong> {{ rental.rental_id }}</div>
+            <div><strong>ID:</strong> {{ rental.stud_id }}</div>
+            <div><strong>Name:</strong> {{ rental.f_name }} {{ rental.l_name }}</div>
             <div><strong>Locker:</strong> {{ rental.locker_number }}</div>
+          </div>
+          <div class="card-row mt-2">
             <div>
               <strong>Status:</strong>
               <span
@@ -113,22 +118,21 @@
       </p>
     </div>
 
-    <div
-      class="modal fade"
-      id="detailsModal"
-      tabindex="-1"
-      aria-hidden="true"
-      ref="detailsModalRef"
-    >
+    <!-- 🧾 Details Modal -->
+    <div class="modal fade" id="detailsModal" tabindex="-1" aria-hidden="true" ref="detailsModalRef">
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header bg-primary text-white">
             <h5 class="modal-title">
-              Rental #{{ selectedRental?.rental_id }}
+              Reservation for {{ selectedRental?.f_name }} {{ selectedRental?.l_name }}
             </h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
           </div>
           <div class="modal-body">
+            <p><strong>Rental ID:</strong> {{ selectedRental?.rental_id }}</p>
+            <p><strong>Student ID:</strong> {{ selectedRental?.stud_id }}</p>
+            <p><strong>Email:</strong> {{ selectedRental?.email }}</p>
+            <hr />
             <p><strong>Locker Number:</strong> {{ selectedRental?.locker_number }}</p>
             <p><strong>Location (Course):</strong> {{ selectedRental?.course_name }}</p>
             <p>
@@ -148,25 +152,60 @@
                 {{ selectedRental?.status }}
               </span>
             </p>
-            
             <hr />
-
             <div class="d-flex justify-content-center gap-2">
               <button
                 class="btn btn-approve w-50"
-                @click="approveReservationFromModal"
+                @click="showConfirmModal('approve', selectedRental)"
                 :disabled="selectedRental?.status?.toLowerCase() === 'active'"
               >
                 <i class="bi bi-check-circle me-1"></i> Approve
               </button>
               <button
                 class="btn btn-cancel w-50"
-                @click="cancelRentalFromModal"
+                @click="showConfirmModal('cancel', selectedRental)"
                 :disabled="selectedRental?.status?.toLowerCase() === 'active'"
               >
                 <i class="bi bi-x-circle me-1"></i> Cancel
               </button>
             </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ✅ Confirmation Modal -->
+    <div class="modal fade" id="confirmModal" tabindex="-1" aria-hidden="true" ref="confirmModalRef">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header bg-warning">
+            <h5 class="modal-title text-dark">Confirm Action</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+          <div class="modal-body text-center">
+            <p class="mb-0">{{ confirmMessage }}</p>
+          </div>
+          <div class="modal-footer justify-content-center">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            <button type="button" class="btn btn-primary" @click="confirmAction">Confirm</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ✅ Success/Error Modal -->
+    <div class="modal fade" id="resultModal" tabindex="-1" aria-hidden="true" ref="resultModalRef">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div :class="['modal-header', resultSuccess ? 'bg-success' : 'bg-danger', 'text-white']">
+            <h5 class="modal-title">{{ resultSuccess ? 'Success' : 'Error' }}</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+          <div class="modal-body text-center">
+            <p>{{ resultMessage }}</p>
+          </div>
+          <div class="modal-footer justify-content-center">
+            <button type="button" class="btn btn-primary" data-bs-dismiss="modal">OK</button>
           </div>
         </div>
       </div>
@@ -177,121 +216,94 @@
 <script setup>
 import { ref, computed, onMounted } from "vue";
 import axios from "axios";
-import * as bootstrap from "bootstrap"; // Ensure bootstrap is imported
+import * as bootstrap from "bootstrap";
 
 const rentals = ref([]);
 const searchQuery = ref("");
-// 🆕 Added for Card View
 const selectedRental = ref(null);
 const detailsModalRef = ref(null);
-let detailsModalInstance = null;
+const confirmModalRef = ref(null);
+const resultModalRef = ref(null);
 
-// 🧭 Fetch all pending rentals
+let detailsModalInstance = null;
+let confirmModalInstance = null;
+let resultModalInstance = null;
+
+const confirmMessage = ref("");
+const resultMessage = ref("");
+const resultSuccess = ref(false);
+let confirmActionType = null;
+let confirmTargetRental = null;
+
 const fetchPendingRentals = async () => {
   try {
     const token = localStorage.getItem("token");
     let url = "http://localhost:3001/pending-rentals";
-    
-    // 💡 Fetching with search query if present
-    if (searchQuery.value.trim()) {
-        url += `?search=${searchQuery.value.trim()}`;
-    }
-
-    const res = await axios.get(url, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-
-    if (Array.isArray(res.data.records)) {
-      rentals.value = res.data.records;
-    } else {
-      console.warn("⚠️ Unexpected API format:", res.data);
-      rentals.value = [];
-    }
-  } catch (err) {
-    console.error("Failed to fetch rentals:", err);
+    if (searchQuery.value.trim()) url += `?search=${searchQuery.value.trim()}`;
+    const res = await axios.get(url, { headers: { Authorization: `Bearer ${token}` } });
+    rentals.value = Array.isArray(res.data.records) ? res.data.records : [];
+  } catch {
     rentals.value = [];
   }
 };
 
-// 🔍 Filter rentals (only used if search is not passed to API)
-const filteredRentals = computed(() => {
-    // If search is handled by the API (which it is in fetchPendingRentals), 
-    // this computed property just returns the fetched array.
-    return rentals.value;
-});
+const filteredRentals = computed(() => rentals.value);
 
-// ✅ Approve reservation (fixed API route)
-const approveReservation = async (rentalId) => {
+const showConfirmModal = (type, rental) => {
+  confirmActionType = type;
+  confirmTargetRental = rental;
+  confirmMessage.value =
+    type === "approve"
+      ? `Are you sure you want to approve reservation #${rental.rental_id}?`
+      : `Are you sure you want to cancel reservation #${rental.rental_id}?`;
+  confirmModalInstance.show();
+};
+
+const confirmAction = async () => {
+  confirmModalInstance.hide();
+  if (!confirmTargetRental) return;
+
   try {
     const token = localStorage.getItem("token");
-    const confirmAction = confirm(`Approve reservation #${rentalId}?`);
-    if (!confirmAction) return;
+    let url =
+      confirmActionType === "approve"
+        ? "http://localhost:3001/approve-rental"
+        : "http://localhost:3001/cancel-rental";
+    const body =
+      confirmActionType === "approve"
+        ? {
+            rental_id: confirmTargetRental.rental_id,
+            months: 1,
+            paid_months: 1,
+            payment_method: "cash",
+            remarks: "Approved by admin",
+          }
+        : { rental_id: confirmTargetRental.rental_id };
 
-    const response = await axios.post(
-      "http://localhost:3001/approve-rental",
-      {
-        rental_id: rentalId,
-        months: 1,
-        paid_months: 1,
-        payment_method: "cash",
-        remarks: "Approved by admin",
-      },
-      { headers: { Authorization: `Bearer ${token}` } }
-    );
-
-    alert(response.data.message || "Reservation approved successfully!");
-    detailsModalInstance?.hide(); // Hide modal if open
-    fetchPendingRentals(); // refresh list
+    const res = await axios.post(url, body, { headers: { Authorization: `Bearer ${token}` } });
+    resultSuccess.value = true;
+    resultMessage.value = res.data.message || "Action completed successfully.";
   } catch (err) {
-    console.error("Error approving reservation:", err);
-    alert(err.response?.data?.error || "Failed to approve reservation.");
+    resultSuccess.value = false;
+    resultMessage.value = err.response?.data?.error || "An error occurred.";
+  } finally {
+    detailsModalInstance?.hide();
+    fetchPendingRentals();
+    resultModalInstance.show();
   }
 };
 
-// ❌ Cancel rental (fixed API route)
-const cancelRental = async (rentalId) => {
-  try {
-    const token = localStorage.getItem("token");
-    const confirmAction = confirm(`Cancel rental #${rentalId}?`);
-    if (!confirmAction) return;
-
-    const response = await axios.post(
-      "http://localhost:3001/cancel-rental",
-      { rental_id: rentalId },
-      { headers: { Authorization: `Bearer ${token}` } }
-    );
-
-    alert(response.data.message || "Rental cancelled successfully!");
-    detailsModalInstance?.hide(); // Hide modal if open
-    fetchPendingRentals(); // refresh list
-  } catch (err) {
-    console.error("Error cancelling rental:", err);
-    alert(err.response?.data?.error || "Failed to cancel rental.");
-  }
-};
-
-// 🆕 Card View Functions
 const openDetailsModal = (rental) => {
   selectedRental.value = rental;
-  if (!detailsModalInstance) {
-    detailsModalInstance = new bootstrap.Modal(detailsModalRef.value);
-  }
   detailsModalInstance.show();
 };
 
-const approveReservationFromModal = () => {
-  if (selectedRental.value) {
-    approveReservation(selectedRental.value.rental_id);
-  }
-};
-
-const cancelRentalFromModal = () => {
-  if (selectedRental.value) {
-    cancelRental(selectedRental.value.rental_id);
-  }
-};
-
-onMounted(fetchPendingRentals);
+onMounted(() => {
+  fetchPendingRentals();
+  detailsModalInstance = new bootstrap.Modal(detailsModalRef.value);
+  confirmModalInstance = new bootstrap.Modal(confirmModalRef.value);
+  resultModalInstance = new bootstrap.Modal(resultModalRef.value);
+});
 </script>
 
 <style scoped>
