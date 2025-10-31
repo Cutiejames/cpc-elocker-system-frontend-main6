@@ -147,7 +147,7 @@
                 <div v-if="qrResult" class="text-center mt-3">
                   <p class="fw-semibold text-success">Scan to Pay (₱{{ qrResult.amount_due }})</p>
                   <img
-                    :src="`http://localhost:3001${qrResult.qr_download}`"
+                    :src="`${API_BASE_URL}${qrResult.qr_download}`"
                     class="img-fluid border p-2"
                     style="max-width: 250px;"
                   />
@@ -269,6 +269,8 @@
 import axios from "axios";
 import lockerIcon from "@/assets/locker-black.png";
 
+const API_BASE_URL = process.env.VUE_APP_API_URL;
+
 export default {
   name: "LockersPage",
   data() {
@@ -341,7 +343,7 @@ export default {
   methods: {
     async fetchLockers() {
       try {
-        const response = await axios.get("http://localhost:3001/locker/lockers");
+        const response = await axios.get(`${API_BASE_URL}/locker/lockers`);
         const data = response.data;
         this.lockers = Array.isArray(data)
           ? data
@@ -388,7 +390,7 @@ export default {
       
         try {
           // optional: confirm payment on backend first
-          await axios.post("http://localhost:3001/locker/payments", {
+          await axios.post(`${API_BASE_URL}/locker/payments`, {
             locker_id: this.selectedLocker?.locker_id || this.qrResult.locker_id,
             payment_method: "qr",
           }, { withCredentials: true });
@@ -424,7 +426,7 @@ export default {
       let payload = {};
 
       if (this.form.action_type === "rent") {
-        url = "http://localhost:3001/locker/transaction";
+        url = `${API_BASE_URL}/locker/transaction`;
         payload = {
           locker_id,
           months: this.form.months,
@@ -433,7 +435,7 @@ export default {
           action_type: "rent",
         };
       } else {
-        url = "http://localhost:3001/locker/transaction";
+        url = `${API_BASE_URL}/locker/transaction`;
         payload = {
           locker_id,
           payment_method: this.form.payment_method,
@@ -497,7 +499,7 @@ export default {
     },
     async downloadQrCode() {
       if (!this.qrResult?.qr_download) return;
-      const imageUrl = `http://localhost:3001${this.qrResult.qr_download}`;
+      const imageUrl = `${API_BASE_URL}${this.qrResult.qr_download}`;
       const fileName = `locker_${this.selectedLocker.locker_number}_qr.png`;
       
       try {
@@ -536,7 +538,7 @@ export default {
         };
 
         const response = await axios.post(
-          "http://localhost:3001/locker/transaction",
+          `${API_BASE_URL}/locker/transaction`,
           payload,
           { withCredentials: true }
         );

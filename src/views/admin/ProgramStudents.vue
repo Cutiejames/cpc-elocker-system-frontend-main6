@@ -220,7 +220,7 @@
 <script>
 import axios from "axios";
 import bootstrap from "bootstrap/dist/js/bootstrap.bundle";
-
+const API_BASE_URL = process.env.VUE_APP_API_URL;
 export default {
   name: "ProgramStudents",
   data() {
@@ -285,7 +285,7 @@ async fetchStudents() {
     const token = localStorage.getItem("token");
     // ✅ Correct backend endpoint
     const res = await axios.get(
-      `http://localhost:3001/courses/${this.courseId}/students`,
+      `${API_BASE_URL}/courses/${this.courseId}/students`,
       { headers: { Authorization: `Bearer ${token}` } }
     );
 
@@ -313,7 +313,7 @@ async fetchStudents() {
       try {
         const token = localStorage.getItem("token");
         const res = await axios.put(
-          `http://localhost:3001/users/${student.user_id}/disable`,
+          `${API_BASE_URL}/users/${student.user_id}/disable`,
           {},
           { headers: { Authorization: `Bearer ${token}` } }
         );
@@ -330,7 +330,7 @@ async fetchStudents() {
       try {
         const token = localStorage.getItem("token");
         const res = await axios.put(
-          `http://localhost:3001/users/${student.user_id}/enable`,
+          `${API_BASE_URL}/users/${student.user_id}/enable`,
           {},
           { headers: { Authorization: `Bearer ${token}` } }
         );
@@ -372,7 +372,7 @@ async fetchStudents() {
       try {
         const token = localStorage.getItem("token");
         const res = await axios.post(
-          "http://localhost:3001/users/reset-password",
+          `${API_BASE_URL}/users/reset-password`,
           {
             user_id: this.selectedStudent.user_id,
             new_password: this.newPassword,

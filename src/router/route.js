@@ -4,7 +4,7 @@ import "bootstrap/dist/js/bootstrap.bundle.min.js";
 // ✅ User components
 import DashboardPage from "../layouts/DashboardPage.vue";
 import CreateAccount from "../views/CreateAccount.vue";
-import LoginPage from "../views/LoginPage.vue";
+import LoginPage from "../views/index.vue";
 import SettingProfile from "../views/SettingProfile.vue";
 import SupportPage from "../views/SupportPage.vue";
 import RentalStatus from "../views/RentalStatus.vue";
@@ -28,9 +28,9 @@ import AdminTransactions from "../views/admin/AdminTransactions.vue";
 
 const routes = [
   // ✅ Login
+  { path: "/", redirect: "/login" },
   { path: "/login", name: "Login", component: LoginPage },
   { path: "/create-account", name: "CreateAccount", component: CreateAccount },
-  { path: "/", redirect: "/login" },
 
   // ✅ User dashboard layout
   {
@@ -125,6 +125,8 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(),
   routes,
+
+  
 });
 
 // 🚫 AUTH GUARD (Commented Out)

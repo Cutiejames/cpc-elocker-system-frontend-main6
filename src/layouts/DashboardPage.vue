@@ -338,7 +338,7 @@ export default {
     let logoutModalInstance = null;
 
     // NOTE: This API URL is a placeholder and may not work in a real environment.
-    const API_BASE = "http://localhost:3001";
+    const API_BASE_URL = process.env.VUE_APP_API_URL;
 
     // --- Sidebar/Menu Handlers ---
     const openSidebar = () => (isCollapsed.value = false);
@@ -372,7 +372,7 @@ const confirmLogout = async () => {
 const fetchNotifications = async () => {
       try {
         const token = localStorage.getItem("token");
-        const { data } = await axios.get(`${API_BASE}/notifications`, {
+        const { data } = await axios.get(`${API_BASE_URL}/notifications`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         notifications.value = data;
@@ -385,7 +385,7 @@ const fetchNotifications = async () => {
     const markRead = async (notif_id) => {
       try {
         const token = localStorage.getItem("token");
-        await axios.put(`${API_BASE}/notifications/${notif_id}/read`, {}, {
+        await axios.put(`${API_BASE_URL}/notifications/${notif_id}/read`, {}, {
           headers: { Authorization: `Bearer ${token}` },
         });
         await fetchNotifications();
@@ -398,7 +398,7 @@ const fetchNotifications = async () => {
     const markAllRead = async () => {
       try {
         const token = localStorage.getItem("token");
-        await axios.put(`${API_BASE}/notifications/read-all`, {}, {
+        await axios.put(`${API_BASE_URL}/notifications/read-all`, {}, {
           headers: { Authorization: `Bearer ${token}` },
         });
         await fetchNotifications();

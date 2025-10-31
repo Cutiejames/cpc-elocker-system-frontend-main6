@@ -11,7 +11,7 @@
 
       <img
         v-if="qrData"
-        :src="`http://localhost:3001${qrData.qr_download}`"
+        :src="`${API_BASE_URL}${qrData.qr_download}`"
         alt="QR Code"
         class="img-fluid border p-3 rounded shadow-sm"
         style="max-width: 260px;"
@@ -78,6 +78,8 @@
 <script>
 import axios from "axios";
 
+const API_BASE_URL = process.env.VUE_APP_API_URL;
+
 export default {
   name: "QrProcessPage",
   data() {
@@ -110,7 +112,7 @@ export default {
 
 //   try {
 //     const res = await axios.post(
-//       "http://localhost:3001/locker/transaction",
+//       "${API_BASE_URL}/locker/transaction",
 //       {
 //         locker_id: lockerId,
 //         months,
@@ -150,7 +152,7 @@ mounted() {
     const token = localStorage.getItem("token");
 
     axios
-      .get(`http://localhost:3001/locker/rental/${lockerId}`, {
+      .get(`${API_BASE_URL}/locker/rental/${lockerId}`, {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => {
@@ -200,7 +202,7 @@ methods: {
       reference_number: this.referenceNumber.trim(),
     };
 
-    const res = await axios.post('http://localhost:3001/locker/payments', formData, {
+    const res = await axios.post(`${API_BASE_URL}/locker/payments`, formData, {
       headers: {
         Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json',
@@ -232,7 +234,7 @@ confirmRedirect() {
   async downloadQrCode() {
   if (!this.qrData?.qr_download) return;
 
-  const imageUrl = `http://localhost:3001${this.qrData.qr_download}`;
+  const imageUrl = `${API_BASE_URL}${this.qrData.qr_download}`;
   const fileName = "locker_qr.png";
 
   try {

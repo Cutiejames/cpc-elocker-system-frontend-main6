@@ -186,7 +186,7 @@
 <script setup>
 import { ref, computed, onMounted, onBeforeUnmount, nextTick } from "vue";
 import axios from "axios";
-
+const API_BASE_URL = process.env.VUE_APP_API_URL;
 const filter = ref("All");
 const tickets = ref([]);
 const selectedTicket = ref(null);
@@ -230,7 +230,7 @@ const formatDate = (dateStr) => {
 // Fetch tickets
 const fetchTickets = async () => {
   try {
-    const res = await axios.get("http://localhost:3001/tickets", {
+    const res = await axios.get(`${API_BASE_URL}/tickets`, {
       headers: { Authorization: `Bearer ${token}` },
     });
     tickets.value = Array.isArray(res.data) ? res.data : res.data.data || [];
@@ -256,7 +256,7 @@ const selectTicket = async (ticket) => {
 
   try {
     const res = await axios.get(
-      `http://localhost:3001/tickets/${ticket.ticket_id}/messages`,
+      `${API_BASE_URL}/tickets/${ticket.ticket_id}/messages`,
       { headers: { Authorization: `Bearer ${token}` } }
     );
     const raw = Array.isArray(res.data) ? res.data : res.data.data || [];
@@ -286,7 +286,7 @@ const sendMessage = async () => {
 
   try {
     await axios.post(
-      `http://localhost:3001/tickets/${selectedTicket.value.ticket_id}/reply`,
+      `${API_BASE_URL}/tickets/${selectedTicket.value.ticket_id}/reply`,
       {
         message: newMessage.value,
         role: "admin",

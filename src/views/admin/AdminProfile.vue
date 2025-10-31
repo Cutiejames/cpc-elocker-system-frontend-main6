@@ -129,7 +129,7 @@
 
 <script>
 import axios from "axios";
-
+const API_BASE_URL = process.env.VUE_APP_API_URL;
 export default {
   name: "SettingProfile",
   data() {
@@ -157,14 +157,14 @@ export default {
 //   profileImageUrl() {
 //     // load from backend route using user_id
 //     return this.form.user_id
-//       ? `http://localhost:3001/profile-pic/${this.form.user_id}`
+//       ? `${API_BASE_URL}/profile-pic/${this.form.user_id}`
 //       : require("@/assets/logo.png");
 //   },
 // },
 
   async created() {
     try {
-      const response = await axios.get("http://localhost:3001/settings", {
+      const response = await axios.get(`${API_BASE_URL}/settings`, {
         withCredentials: true,
       });
 
@@ -181,7 +181,7 @@ export default {
           role: user.role,
         };
         // set image url from backend
-        this.form.profile_pic_url = `http://localhost:3001/profile-pic/${user.user_id}`;
+        this.form.profile_pic_url = `${API_BASE_URL}/profile-pic/${user.user_id}`;
       }
     } catch (error) {
       console.error("Error loading profile:", error);
@@ -206,7 +206,7 @@ export default {
       formData.append("profile_pic", file);
 
       axios
-        .post("http://localhost:3001/upload-profile-pic", formData, {
+        .post(`${API_BASE_URL}/upload-profile-pic`, formData, {
           headers: { "Content-Type": "multipart/form-data" },
           withCredentials: true,
         })
@@ -215,7 +215,7 @@ export default {
           this.messageClass = "alert-success";
 
           // refresh image from backend
-          this.form.profile_pic_url = `http://localhost:3001/profile-pic/${this.form.user_id}?t=${Date.now()}`;
+          this.form.profile_pic_url = `${API_BASE_URL}/profile-pic/${this.form.user_id}?t=${Date.now()}`;
           this.previewImage = null;
         })
         .catch((err) => {
@@ -237,7 +237,7 @@ async updateProfile() {
       };
 
       const res = await axios.post(
-        "http://localhost:3001/settings/update-password",
+        `${API_BASE_URL}/settings/update-password`,
         passwordData,
         { withCredentials: true }
       );

@@ -106,6 +106,8 @@ const router = useRouter()
 
 let courseChart, tenantsChart, incomeChart, reservationChart;
 
+const API_BASE_URL = process.env.VUE_APP_API_URL;
+
 const goToTransactions = () => {
   router.push('/TestDashboard/transactions')
 }
@@ -114,7 +116,7 @@ const goToTransactions = () => {
 const fetchSummary = async () => {
   try {
     const res = await axios.get(
-      `http://localhost:3001/dashboard/summary?start_date=${startDate.value}&end_date=${endDate.value}`
+      `${API_BASE_URL}/dashboard/summary?start_date=${startDate.value}&end_date=${endDate.value}`
     );
     summary.value = res.data.summary || {};
   } catch (err) {
@@ -126,7 +128,7 @@ const fetchSummary = async () => {
 const fetchCourseStats = async () => {
   try {
     const res = await axios.get(
-      `http://localhost:3001/dashboard/rent-by-course?start_date=${startDate.value}&end_date=${endDate.value}`
+      `${API_BASE_URL}/dashboard/rent-by-course?start_date=${startDate.value}&end_date=${endDate.value}`
     );
     const raw = res.data.data || [];
     const labels = raw.map(i => i.course_name);
@@ -153,7 +155,7 @@ const fetchCourseStats = async () => {
 const fetchTenants = async () => {
   try {
     const res = await axios.get(
-      `http://localhost:3001/dashboard/tenants?start_date=${startDate.value}&end_date=${endDate.value}`
+      `${API_BASE_URL}/dashboard/tenants?start_date=${startDate.value}&end_date=${endDate.value}`
     );
     const raw = res.data.data || [];
     const labels = raw.map(i => i.month);
@@ -180,7 +182,7 @@ const fetchTenants = async () => {
 const fetchIncome = async () => {
   try {
     const res = await axios.get(
-      `http://localhost:3001/dashboard/income?start_date=${startDate.value}&end_date=${endDate.value}`
+      `${API_BASE_URL}/dashboard/income?start_date=${startDate.value}&end_date=${endDate.value}`
     );
     const raw = res.data.data || [];
     const labels = raw.map(i => new Date(i.date).toLocaleDateString());
@@ -203,7 +205,7 @@ const fetchIncome = async () => {
 const fetchReservations = async () => {
   try {
     const res = await axios.get(
-      `http://localhost:3001/dashboard/reservations?start_date=${startDate.value}&end_date=${endDate.value}`
+      `${API_BASE_URL}/dashboard/reservations?start_date=${startDate.value}&end_date=${endDate.value}`
     );
     const raw = res.data.data || [];
     const labels = raw.map(i => new Date(i.date).toLocaleDateString());
@@ -226,7 +228,7 @@ const fetchReservations = async () => {
 const downloadReport = async () => {
   try {
     const res = await axios.get(
-      `http://localhost:3001/dashboard/report/pdf?start_date=${startDate.value}&end_date=${endDate.value}`,
+      `${API_BASE_URL}/dashboard/report/pdf?start_date=${startDate.value}&end_date=${endDate.value}`,
       { responseType: "blob" }
     );
     const url = window.URL.createObjectURL(new Blob([res.data]));

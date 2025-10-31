@@ -272,7 +272,7 @@ import bshmLogo from "@/assets/BSHM.png";
 import bsedLogo from "@/assets/BSED.png";
 import beedLogo from "@/assets/BEED.png";
 import defaultLogo from "@/assets/logo.png";
-
+const API_BASE_URL = process.env.VUE_APP_API_URL;
 export default {
   name: "UserPage",
   data() {
@@ -305,7 +305,7 @@ export default {
   methods: {
     async fetchPrograms() {
       try {
-        const res = await axios.get("http://localhost:3001/courses");
+        const res = await axios.get(`${API_BASE_URL}/courses`);
         this.programs = res.data;
       } catch (err) {
         console.error("Error fetching programs:", err);
@@ -331,7 +331,7 @@ export default {
     async addStudent() {
       try {
         const res = await axios.post(
-          "http://localhost:3001/create-user",
+          `${API_BASE_URL}/create-user`,
           this.newStudent
         );
         alert(res.data.message || "Student added successfully!"); // Keep alert() as per instruction
@@ -345,7 +345,7 @@ export default {
     async addCourse() {
       try {
         const res = await axios.post(
-          "http://localhost:3001/courses",
+          `${API_BASE_URL}/courses`,
           this.newCourse
         );
         alert(res.data.message || "Course added successfully!"); // Keep alert() as per instruction

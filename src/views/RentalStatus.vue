@@ -69,7 +69,7 @@
 
 <script>
 import axios from "axios";
-
+const API_BASE_URL = process.env.VUE_APP_API_URL;
 export default {
   name: "RentStatus",
   data() {
@@ -84,7 +84,7 @@ export default {
   methods: {
     async fetchRentals() {
       try {
-        const res = await axios.get("http://localhost:3001/rent-status", {
+        const res = await axios.get(`${API_BASE_URL}/rent-status`, {
           withCredentials: true,
         });
         this.rentals = res.data;
@@ -95,12 +95,12 @@ export default {
 
     async fetchProfile() {
       try {
-        const res = await axios.get("http://localhost:3001/settings", {
+        const res = await axios.get(`${API_BASE_URL}/settings`, {
           withCredentials: true,
         });
         if (res.data.user) {
           this.profile.user_id = res.data.user.user_id;
-          this.profile.profile_pic_url = `http://localhost:3001/profile-pic/${res.data.user.user_id}`;
+          this.profile.profile_pic_url = `${API_BASE_URL}/profile-pic/${res.data.user.user_id}`;
         }
       } catch (err) {
         console.error("Error fetching profile:", err);

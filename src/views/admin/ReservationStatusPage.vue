@@ -217,7 +217,7 @@
 import { ref, computed, onMounted } from "vue";
 import axios from "axios";
 import * as bootstrap from "bootstrap";
-
+const API_BASE_URL = process.env.VUE_APP_API_URL;
 const rentals = ref([]);
 const searchQuery = ref("");
 const selectedRental = ref(null);
@@ -238,7 +238,7 @@ let confirmTargetRental = null;
 const fetchPendingRentals = async () => {
   try {
     const token = localStorage.getItem("token");
-    let url = "http://localhost:3001/pending-rentals";
+    let url = `${API_BASE_URL}/pending-rentals`;
     if (searchQuery.value.trim()) url += `?search=${searchQuery.value.trim()}`;
     const res = await axios.get(url, { headers: { Authorization: `Bearer ${token}` } });
     rentals.value = Array.isArray(res.data.records) ? res.data.records : [];
@@ -267,8 +267,8 @@ const confirmAction = async () => {
     const token = localStorage.getItem("token");
     let url =
       confirmActionType === "approve"
-        ? "http://localhost:3001/approve-rental"
-        : "http://localhost:3001/cancel-rental";
+        ? `${API_BASE_URL}/approve-rental`
+        : `${API_BASE_URL}/cancel-rental`;
     const body =
       confirmActionType === "approve"
         ? {

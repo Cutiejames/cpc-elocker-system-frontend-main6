@@ -94,7 +94,8 @@ const isLoading = ref(false);
 const errorMessage = ref("");
 const successMessage = ref("");
 
-const API_BASE_URL = "http://localhost:3001";
+// ✅ Automatically use environment variable for API URL
+const API_BASE_URL = process.env.VUE_APP_API_URL;
 
 // LOGIN FUNCTION
 const signIn = async () => {
@@ -128,7 +129,7 @@ const signIn = async () => {
       localStorage.setItem("authToken", token);
       localStorage.setItem("userData", JSON.stringify(user));
       localStorage.setItem("userRole", role);
-      localStorage.setItem("userId", user.user_id); // <-- Save userId separately for easy access
+      localStorage.setItem("userId", user.user_id);
 
       successMessage.value = "Login successful! Redirecting...";
 
@@ -164,24 +165,10 @@ const signIn = async () => {
 const goToSignUp = () => {
   router.push("/create-account");
 };
-
-// AUTO-REDIRECT IF ALREADY LOGGED IN
-// const checkAuthStatus = () => {
-//   const token = localStorage.getItem("authToken");
-//   if (token) {
-//     const userRole = localStorage.getItem("userRole");
-//     if (userRole === "admin") {
-//       router.push("/TestDashboard/admin-dashboard");
-//     } else {
-//       router.push("/dashboard/user-locker");
-//     }
-//   }
-// };
-
-// checkAuthStatus();
 </script>
+
 <style scoped>
-  img{
-    border-radius: 100px;
-  }
+img {
+  border-radius: 100px;
+}
 </style>

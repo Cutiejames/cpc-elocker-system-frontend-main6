@@ -205,7 +205,7 @@
 import { ref, onMounted } from "vue";
 import axios from "axios";
 import * as bootstrap from "bootstrap"; 
-
+const API_BASE_URL = process.env.VUE_APP_API_URL;
 const rentals = ref([]);
 const searchQuery = ref("");
 const sortBy = ref("due_date");
@@ -223,7 +223,7 @@ const loadingPayments = ref(false);
 
 const fetchRentals = async () => {
   try {
-    let url = `http://localhost:3001/active-rentals?sortBy=${sortBy.value}&sortOrder=${sortOrder.value}`;
+    let url = `${API_BASE_URL}/active-rentals?sortBy=${sortBy.value}&sortOrder=${sortOrder.value}`;
     if (searchQuery.value) {
       url += `&search=${searchQuery.value}`;
     }
@@ -251,7 +251,7 @@ const openPaymentHistory = async (studId) => {
 
   try {
     const res = await axios.get(
-      `http://localhost:3001/payment-history-ad/${studId}`
+      `${API_BASE_URL}/payment-history-ad/${studId}`
     );
     paymentHistory.value = res.data.records || [];
   } catch (err) {

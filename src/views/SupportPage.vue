@@ -148,7 +148,7 @@ const showForm = ref(false);
 const token = localStorage.getItem("token");
 const decoded = token ? jwtDecode(token) : null;
 const userId = decoded?.id || decoded?.user_id; // <-- adjust to your backend token
-
+const API_BASE_URL = process.env.VUE_APP_API_URL;
 // New ticket form
 const newTicket = ref({
   subject: "",
@@ -166,7 +166,7 @@ const formatDate = (dateStr) => {
 // Fetch all tickets
 const fetchTickets = async () => {
   try {
-    const res = await axios.get("http://localhost:3001/my-tickets", {
+    const res = await axios.get(`${API_BASE_URL}/my-tickets`, {
       headers: { Authorization: `Bearer ${token}` },
     });
     tickets.value = Array.isArray(res.data) ? res.data : res.data.data || [];
@@ -192,7 +192,7 @@ const selectTicket = async (ticket) => {
 
   try {
     const res = await axios.get(
-      `http://localhost:3001/tickets/${ticket.ticket_id}/messages`,
+      `${API_BASE_URL}/tickets/${ticket.ticket_id}/messages`,
       { headers: { Authorization: `Bearer ${token}` } }
     );
 
@@ -242,7 +242,7 @@ const sendMessage = async () => {
     };
 
     await axios.post(
-      `http://localhost:3001/tickets/${selectedTicket.value.ticket_id}/reply`,
+      `${API_BASE_URL}/tickets/${selectedTicket.value.ticket_id}/reply`,
       payload,
       { headers: { Authorization: `Bearer ${token}` } }
     );
@@ -272,7 +272,7 @@ const submitTicket = async () => {
 
   try {
     await axios.post(
-      "http://localhost:3001/create-tickets",
+      `${API_BASE_URL}/create-tickets`,
       { ...newTicket.value, user_id: userId },
       { headers: { Authorization: `Bearer ${token}` } }
     );

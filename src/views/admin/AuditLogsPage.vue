@@ -149,7 +149,7 @@
 import axios from "axios";
 // Import Bootstrap Modal for programmatic control
 import { Modal } from "bootstrap";
-
+const API_BASE_URL = process.env.VUE_APP_API_URL;
 export default {
   name: "AuditLogsPage",
   data() {
@@ -187,7 +187,7 @@ export default {
     async fetchLogs(page = 1) {
       try {
         this.currentPage = page;
-        let url = `http://localhost:3001/audit-logs?page=${this.currentPage}&limit=${this.perPage}`;
+        let url = `${API_BASE_URL}/audit-logs?page=${this.currentPage}&limit=${this.perPage}`;
         
         // Use ISO format for API date filtering
         if (this.selectedDate) {

@@ -250,7 +250,7 @@
 <script>
 import axios from "axios";
 import lockerIcon from "@/assets/locker-black.png";
-
+const API_BASE_URL = process.env.VUE_APP_API_URL;
 export default {
   name: "LockersPage",
   data() {
@@ -360,8 +360,8 @@ export default {
     async fetchLockers() {
       try {
         const [lockerRes, tenantRes] = await Promise.all([
-          axios.get("http://localhost:3001/locker/lockers"),
-          axios.get("http://localhost:3001/tenant-info") 
+          axios.get(`${API_BASE_URL}/locker/lockers`),
+          axios.get(`${API_BASE_URL}/tenant-info`) 
         ]);
 
         this.lockers = Array.isArray(lockerRes.data) ? lockerRes.data : lockerRes.data.lockers || [];
@@ -377,7 +377,7 @@ export default {
       this.newLocker.locker_number = this.newLocker.locker_number.trim();
       if (!this.newLocker.locker_number) return alert("Please enter a locker number.");
       try {
-        const res = await axios.post("http://localhost:3001/locker/add", this.newLocker, { withCredentials: true });
+        const res = await axios.post(`${API_BASE_URL}/locker/add`, this.newLocker, { withCredentials: true });
         alert(res.data.message || "Locker added successfully!");
         this.newLocker = { locker_number: "", location: "", remarks: "" };
         this.fetchLockers();
@@ -407,7 +407,7 @@ export default {
       
       try {
         const locker_id = this.selectedLocker.locker_id;
-        const url = "http://localhost:3001/locker/transaction";
+        const url = `${API_BASE_URL}/locker/transaction`;
         const payload = { 
             locker_id, 
             student_id: this.form.student_id, 

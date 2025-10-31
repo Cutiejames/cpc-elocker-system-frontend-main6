@@ -120,7 +120,7 @@ const search = ref("")
 const showModal = ref(false)
 const receiptImage = ref("")
 
-const API_BASE = "http://localhost:3001"
+const API_BASE_URL = process.env.VUE_APP_API_URL;
 
 // ✅ back button
 const goBack = () => {
@@ -130,7 +130,7 @@ const goBack = () => {
 // ✅ fetch transactions
 const fetchTransactions = async () => {
   try {
-    let url = `${API_BASE}/transaction-logs`
+    let url = `${API_BASE_URL}/transaction-logs`
     if (startDate.value && endDate.value) {
       url += `?start_date=${startDate.value}&end_date=${endDate.value}`
     }
@@ -144,7 +144,7 @@ const fetchTransactions = async () => {
 // ✅ download pdf
 const downloadPDF = async () => {
   try {
-    let url = `${API_BASE}/transaction-logs/report/pdf`
+    let url = `${API_BASE_URL}/transaction-logs/report/pdf`
     if (startDate.value && endDate.value) {
       url += `?start_date=${startDate.value}&end_date=${endDate.value}`
     }

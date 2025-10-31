@@ -258,6 +258,7 @@ import supportIcon from "@/assets/contactus.png";
 import settingsIcon from "@/assets/settings.png";
 import logoutIcon from "@/assets/logout.png";
 
+const API_BASE_URL = process.env.VUE_APP_API_URL;
 export default {
   setup() {
     const isCollapsed = ref(true); // Start collapsed by default
@@ -305,13 +306,13 @@ const confirmLogout = async () => {
     const toggleMobileMenu = () => (mobileMenuOpen.value = !mobileMenuOpen.value);
 
     const navLinks = [
-      { label: "Dashboard", path: "/TestDashboard/admin-dashboard", img: dashboardIcon },
-      { label: "LockerPage", path: "/TestDashboard/lockerpage", img: lockerIcon },
-      { label: "Rental Status", path: "/TestDashboard/rentalstatus", img: assetsIcon },
-      { label: "Reservation", path: "/TestDashboard/reservationstatus", img: reservationIcon },
-      { label: "User", path: "/TestDashboard/user", img: userIcon },
-      { label: "Audit Logs", path: "/TestDashboard/audit", img: auditlogIcon },
-      { label: "Support", path: "/TestDashboard/support", img: supportIcon },
+      { label: "Dashboard", path: `${API_BASE_URL}/TestDashboard/admin-dashboard`, img: dashboardIcon },
+      { label: "LockerPage", path: `/TestDashboard/lockerpage`, img: lockerIcon },
+      { label: "Rental Status", path: `/TestDashboard/rentalstatus`, img: assetsIcon },
+      { label: "Reservation", path: `/TestDashboard/reservationstatus`, img: reservationIcon },
+      { label: "User", path: `/TestDashboard/user`, img: userIcon },
+      { label: "Audit Logs", path: `/TestDashboard/audit`, img: auditlogIcon },
+      { label: "Support", path: `/TestDashboard/support`, img: supportIcon },
     ];
 
     return {
