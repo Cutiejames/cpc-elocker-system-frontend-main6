@@ -78,7 +78,7 @@
 <script>
 import axios from "axios";
 
-const API_BASE_URL = process.env.VUE_APP_API_URL;
+import { API_BASE_URL } from '@/config/api'
 
 export default {
   name: "QrProcessPage",

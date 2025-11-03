@@ -86,6 +86,7 @@
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import axios from "axios";
+import { API_BASE_URL } from '@/config/api'
 
 const router = useRouter();
 const studentId = ref("");
@@ -94,8 +95,7 @@ const isLoading = ref(false);
 const errorMessage = ref("");
 const successMessage = ref("");
 
-// ✅ Automatically use environment variable for API URL
-const API_BASE_URL = process.env.VUE_APP_API_URL;
+// ✅ API URL for localhost
 
 // LOGIN FUNCTION
 const signIn = async () => {

@@ -98,6 +98,7 @@ import { ref, onMounted } from "vue";
 import axios from "axios";
 import Chart from "chart.js/auto";
 import { useRouter } from 'vue-router'
+import { API_BASE_URL } from '@/config/api'
 
 const summary = ref({});
 const startDate = ref("2025-08-10");
@@ -106,7 +107,6 @@ const router = useRouter()
 
 let courseChart, tenantsChart, incomeChart, reservationChart;
 
-const API_BASE_URL = process.env.VUE_APP_API_URL;
 
 const goToTransactions = () => {
   router.push('/TestDashboard/transactions')

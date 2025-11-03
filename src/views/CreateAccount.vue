@@ -99,6 +99,7 @@
 import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import axios from "axios";
+import { API_BASE_URL } from '@/config/api'
 
 const router = useRouter();
 
@@ -116,8 +117,6 @@ const courses = ref([]);
 const isLoading = ref(false);
 const errorMessage = ref("");
 const successMessage = ref("");
-
-const API_BASE_URL = "http://localhost:3001";
 
 // ✅ fetch courses from backend
 const fetchCourses = async () => {

@@ -272,7 +272,7 @@ import bshmLogo from "@/assets/BSHM.png";
 import bsedLogo from "@/assets/BSED.png";
 import beedLogo from "@/assets/BEED.png";
 import defaultLogo from "@/assets/logo.png";
-const API_BASE_URL = process.env.VUE_APP_API_URL;
+import { API_BASE_URL } from '@/config/api'
 export default {
   name: "UserPage",
   data() {

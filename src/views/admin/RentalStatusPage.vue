@@ -205,7 +205,7 @@
 import { ref, onMounted } from "vue";
 import axios from "axios";
 import * as bootstrap from "bootstrap"; 
-const API_BASE_URL = process.env.VUE_APP_API_URL;
+import { API_BASE_URL } from '@/config/api'
 const rentals = ref([]);
 const searchQuery = ref("");
 const sortBy = ref("due_date");

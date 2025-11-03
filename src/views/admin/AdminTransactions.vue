@@ -110,6 +110,7 @@
 import { ref, computed, onMounted } from "vue"
 import axios from "axios"
 import { useRouter } from "vue-router"
+import { API_BASE_URL } from '@/config/api'
 
 const router = useRouter()
 
@@ -119,8 +120,6 @@ const endDate = ref("")
 const search = ref("")
 const showModal = ref(false)
 const receiptImage = ref("")
-
-const API_BASE_URL = process.env.VUE_APP_API_URL;
 
 // ✅ back button
 const goBack = () => {

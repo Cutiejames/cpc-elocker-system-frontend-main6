@@ -220,7 +220,7 @@
 <script>
 import axios from "axios";
 import bootstrap from "bootstrap/dist/js/bootstrap.bundle";
-const API_BASE_URL = process.env.VUE_APP_API_URL;
+import { API_BASE_URL } from '@/config/api'
 export default {
   name: "ProgramStudents",
   data() {

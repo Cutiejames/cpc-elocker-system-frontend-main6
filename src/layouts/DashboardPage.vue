@@ -295,6 +295,7 @@
 import { ref, onMounted } from "vue";
 import axios from "axios";
 import { useLogout } from "@/composables/useLogout";
+import { API_BASE_URL } from '@/config/api'
 // Import Bootstrap's JavaScript bundle for modal functionality
 import bootstrap from "bootstrap/dist/js/bootstrap.bundle";
 
@@ -336,9 +337,6 @@ export default {
     
     // State for the Bootstrap Modal instance
     let logoutModalInstance = null;
-
-    // NOTE: This API URL is a placeholder and may not work in a real environment.
-    const API_BASE_URL = process.env.VUE_APP_API_URL;
 
     // --- Sidebar/Menu Handlers ---
     const openSidebar = () => (isCollapsed.value = false);

@@ -269,7 +269,7 @@
 import axios from "axios";
 import lockerIcon from "@/assets/locker-black.png";
 
-const API_BASE_URL = process.env.VUE_APP_API_URL;
+import { API_BASE_URL } from '@/config/api'
 
 export default {
   name: "LockersPage",

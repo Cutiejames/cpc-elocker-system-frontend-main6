@@ -91,6 +91,7 @@
 
 <script>
 import axios from "axios";
+import { API_BASE_URL } from '@/config/api'
 
 export default {
   name: "ClientRentForm",
@@ -131,7 +132,7 @@ export default {
         };
 
         // ✅ Example API endpoint
-        await axios.post("http://localhost:3001/client/rent", payload);
+        await axios.post("${API_BASE_URL}/client/rent", payload);
 
         alert(`✅ Locker ${this.form.lockerNumber} rented successfully!`);
         this.$router.push({ name: "UserLocker" });

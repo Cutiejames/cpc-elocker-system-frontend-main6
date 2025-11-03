@@ -1,7 +1,7 @@
 // utils/auth.js - Vue Authentication utilities
 import axios from 'axios'
+import { API_BASE_URL } from '@/config/api'
 
-const API_BASE_URL = 'http://localhost:3001'
 
 /**
  * Clear all authentication data from localStorage

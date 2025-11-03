@@ -136,6 +136,7 @@
 import { ref, computed, onMounted, nextTick } from "vue";
 import axios from "axios";
 import jwtDecode from "jwt-decode";
+import { API_BASE_URL } from '@/config/api'
 
 const filter = ref("All");
 const tickets = ref([]);
@@ -148,7 +149,6 @@ const showForm = ref(false);
 const token = localStorage.getItem("token");
 const decoded = token ? jwtDecode(token) : null;
 const userId = decoded?.id || decoded?.user_id; // <-- adjust to your backend token
-const API_BASE_URL = process.env.VUE_APP_API_URL;
 // New ticket form
 const newTicket = ref({
   subject: "",

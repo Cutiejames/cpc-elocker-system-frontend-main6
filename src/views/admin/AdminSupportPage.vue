@@ -186,7 +186,7 @@
 <script setup>
 import { ref, computed, onMounted, onBeforeUnmount, nextTick } from "vue";
 import axios from "axios";
-const API_BASE_URL = process.env.VUE_APP_API_URL;
+import { API_BASE_URL } from '@/config/api'
 const filter = ref("All");
 const tickets = ref([]);
 const selectedTicket = ref(null);
