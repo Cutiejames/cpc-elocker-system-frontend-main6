@@ -210,6 +210,47 @@
         </div>
       </div>
     </div>
+    <!-- ✅ Approve Reservation Modal -->
+<div class="modal fade" id="approveModal" tabindex="-1" aria-hidden="true" ref="approveModalRef">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header bg-primary text-white">
+        <h5 class="modal-title">Approve Reservation</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <p class="text-muted mb-3">
+          Approving Reservation of <strong>{{ approveRental?.f_name }} {{ approveRental?.l_name }}</strong> for Locker Number <strong>{{ approveRental?.locker_number }}</strong>
+        </p>
+        <div class="mb-3">
+          <label class="form-label fw-semibold">Student ID</label>
+          <input
+            v-model="approveStudentId"
+            type="text"
+            class="form-control"
+            placeholder="Enter Student ID"
+            disabled
+          />
+        </div>
+        <div class="mb-3">
+          <label class="form-label fw-semibold">Number of Months</label>
+          <input
+            v-model.number="approveMonths"
+            type="number"
+            class="form-control"
+            min="1"
+            placeholder="Enter rental months"
+          />
+        </div>
+      </div>
+      <div class="modal-footer justify-content-center">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-success" @click="submitApproval">Approve</button>
+      </div>
+    </div>
+  </div>
+</div>
+
   </div>
 </template>
 
@@ -235,6 +276,14 @@ const resultSuccess = ref(false);
 let confirmActionType = null;
 let confirmTargetRental = null;
 
+const approveModalRef = ref(null);
+let approveModalInstance = null;
+
+const approveRental = ref(null);
+const approveStudentId = ref("");
+const approveMonths = ref(1);
+
+
 const fetchPendingRentals = async () => {
   try {
     const token = localStorage.getItem("token");
@@ -252,12 +301,18 @@ const filteredRentals = computed(() => rentals.value);
 const showConfirmModal = (type, rental) => {
   confirmActionType = type;
   confirmTargetRental = rental;
-  confirmMessage.value =
-    type === "approve"
-      ? `Are you sure you want to approve reservation #${rental.rental_id}?`
-      : `Are you sure you want to cancel reservation #${rental.rental_id}?`;
-  confirmModalInstance.show();
+
+  if (type === "approve") {
+    approveRental.value = rental;
+    approveStudentId.value = rental.stud_id || "";
+    approveMonths.value = 1;
+    approveModalInstance.show();
+  } else {
+    confirmMessage.value = `Are you sure you want to cancel reservation #${rental.rental_id}?`;
+    confirmModalInstance.show();
+  }
 };
+
 
 const confirmAction = async () => {
   confirmModalInstance.hide();
@@ -292,7 +347,45 @@ const confirmAction = async () => {
     resultModalInstance.show();
   }
 };
+const submitApproval = async () => {
+  const studentId = String(approveStudentId.value || "").trim();
 
+  if (!studentId) {
+    alert("Student ID is required.");
+    return;
+  }
+  if (!approveMonths.value || approveMonths.value < 1) {
+    alert("Please enter a valid number of months.");
+    return;
+  }
+
+  try {
+    const token = localStorage.getItem("token");
+    const body = {
+      rental_id: approveRental.value.rental_id,
+      student_id: studentId,
+      months: approveMonths.value,
+      paid_months: approveMonths.value,
+      payment_method: "cash",
+      remarks: `Approved manually by admin for ${approveMonths.value} month(s)`,
+    };
+
+    const res = await axios.post(`${API_BASE_URL}/approve-rental`, body, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
+    resultSuccess.value = true;
+    resultMessage.value = res.data.message || "Reservation approved successfully!";
+  } catch (err) {
+    resultSuccess.value = false;
+    resultMessage.value = err.response?.data?.error || "An error occurred while approving.";
+  } finally {
+    approveModalInstance.hide();
+    detailsModalInstance?.hide();
+    fetchPendingRentals();
+    resultModalInstance.show();
+  }
+};
 const openDetailsModal = (rental) => {
   selectedRental.value = rental;
   detailsModalInstance.show();
@@ -303,7 +396,9 @@ onMounted(() => {
   detailsModalInstance = new bootstrap.Modal(detailsModalRef.value);
   confirmModalInstance = new bootstrap.Modal(confirmModalRef.value);
   resultModalInstance = new bootstrap.Modal(resultModalRef.value);
+  approveModalInstance = new bootstrap.Modal(approveModalRef.value);
 });
+
 </script>
 
 <style scoped>
