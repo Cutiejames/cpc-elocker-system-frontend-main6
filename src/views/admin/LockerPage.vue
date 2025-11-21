@@ -158,12 +158,12 @@
     >
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
-          <div class="modal-header">
+          <!-- <div class="modal-header text-white" :class="modalHeaderClass">
             <h5 class="modal-title">
               Locker {{ selectedLocker.locker_number }}
             </h5>
-            <button type="button" class="btn-close" @click="selectedLocker = null"></button>
-          </div>
+            <button type="button" class="btn-close btn-close-white" @click="selectedLocker = null"></button>
+          </div> -->
 
           <div class="modal-body" v-if="selectedLocker">
             <template v-if="selectedLocker.status === 'available'">
@@ -276,6 +276,17 @@ export default {
       const index = (this.currentPage - 1) * 2;
       return [this.letters[index], this.letters[index + 1]];
     },
+        // modalHeaderClass() {
+    //   if (!this.selectedLocker) return 'bg-primary'; 
+
+    //   const status = this.selectedLocker.status;
+    //   switch (status) {
+    //     case "rented": return "bg-danger";
+    //     case "reserved": return "bg-warning";
+    //     case "available": return "bg-success";
+    //     default: return "bg-secondary"; 
+    //   }
+    // },
     sortedLockers() {
       if (!Array.isArray(this.lockers)) return [];
 
@@ -435,7 +446,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<!-- <style scoped>
 /* Custom Hover Box Styling */
 .row.justify-content-center {
   position: relative;
@@ -494,6 +505,13 @@ export default {
 .pagination-footer { position: relative; bottom: -150px; background: white; padding: 10px 0; display: flex; justify-content: center; align-items: center; gap: 15px; }
 .page-circle { width: 38px; height: 38px; border-radius: 50%; border: 2px solid #007bff; background-color: white; color: #007bff; font-weight: bold; font-size: 15px; text-align: center; line-height: 34px; cursor: pointer; }
 .page-circle.active { background-color: #007bff; color: white; box-shadow: 0 0 8px rgba(0,123,255,0.5); }
+
+/* 🟢 MODIFICATION: Added close button style for colored headers */
+.btn-close-white {
+  /* Invert color to white for better visibility on colored backgrounds (bg-danger, bg-success, bg-warning) */
+  filter: invert(1) grayscale(100%) brightness(200%);
+}
+
 @media (max-width: 768px) {
 .stats { justify-content: flex-start; gap: 1.2rem; }
 .locker-card { max-width: 90px; }
@@ -502,4 +520,4 @@ export default {
 .page-circle { width: 34px; height: 34px; font-size: 13px; line-height: 30px; }
 .modal-content { border-radius: 0.5rem; }
 }
-</style>
+</style> -->
