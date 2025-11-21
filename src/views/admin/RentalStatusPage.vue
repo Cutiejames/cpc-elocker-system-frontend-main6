@@ -43,7 +43,7 @@
             <th>Status</th>
             <th>Date Started</th>
             <th>Date End</th>
-            <th>Amount Paid</th>
+             <!-- <th class="amount-paid">Amount Paid</th> -->
           </tr>
         </thead>
 
@@ -66,7 +66,7 @@
             </td>
             <td>{{ formatDate(rental.start_date) }}</td>
             <td>{{ formatDate(rental.due_date) }}</td>
-            <td>₱{{ rental.paid_amount }}</td>
+            <!-- <td class="amount">₱{{ rental.paid_amount }}</td> -->
           </tr>
 
           <tr v-if="rentals.length === 0">
@@ -291,7 +291,7 @@ const formatDate = (dateStr) => {
 onMounted(fetchRentals);
 </script>
 
-<style scoped>
+<!-- <style scoped>
 /* 📦 Container for Table (Desktop) */
 .table-container {
   max-height: 600px;
@@ -311,30 +311,30 @@ onMounted(fetchRentals);
 table {
   border-radius: 15px;
   overflow: hidden;
-  font-size: 14px; /* Increased slightly for better desktop readability */
+  font-size: 16px; /* Increased slightly for better desktop readability */
 }
 table th,
 table td {
   padding: 14px 12px;
   vertical-align: middle;
 }
-
 /* Make table header sticky on desktop */
 .table-header th {
     position: sticky;
     top: 0;
     z-index: 10; /* Ensures header stays above scrolling content */
+    background-color: #0d6efd;
+    color: white;
 }
-
 
 /* 🪄 Hover Effect */
 tbody tr:hover {
-  background-color: #f0f8ff;
+  background-color: #086ac0;
   transition: 0.2s ease-in-out;
-  box-shadow: inset 0 0 6px rgba(0, 123, 255, 0.15);
+  box-shadow: inset 0 0 6px rgba(29, 93, 161, 0.15);
   cursor: pointer; /* Ensure the pointer is visible */
+  border:2px #0d6efd;
 }
-
 /* 🎨 Plain Status Text */
 .status-text {
   font-size: 14px;
@@ -347,7 +347,6 @@ tbody tr:hover {
   width: 10px;
 }
 .table-container::-webkit-scrollbar-thumb {
-  background-color: #ccc;
   border-radius: 10px;
 }
 .table-container::-webkit-scrollbar-thumb:hover {
@@ -357,18 +356,15 @@ tbody tr:hover {
 /* 🧠 Input + Select Enhancements */
 .input-group input,
 .input-group select {
-  border-radius: 8px !important;
   transition: all 0.3s ease;
 }
 
 .input-group input:focus,
 .input-group select:focus {
   box-shadow: 0 0 10px rgba(13, 110, 253, 0.4);
-  border-color: #0d6efd;
 }
-
 .input-group .btn-primary {
-  border-radius: 0 8px 8px 0;
+  border-radius: 8px;
   transition: all 0.3s ease;
 }
 .input-group .btn-primary:hover {
@@ -417,7 +413,15 @@ tbody tr:hover {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-
+.amount{
+  background-color: #0d6dfdbe;
+  border: white 1px solid;
+  color: white;
+  border-radius: 8px;
+}
+.amount-paid{
+  background-color: #2e7ef7be !important;
+}
 /* Small screen adjustments */
 @media (max-width: 576px) {
   .card-row {
@@ -429,5 +433,10 @@ tbody tr:hover {
     font-size: 13px;
     white-space: normal;
   }
+} 
+
+.input-group-text{
+  background-color: #0d6efd;
+  color: white;
 }
-</style>
+</style> -->
