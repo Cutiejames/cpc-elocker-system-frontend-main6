@@ -167,8 +167,85 @@ const goToSignUp = () => {
 };
 </script>
 
-<style scoped>
-img {
+<!-- <style scoped>
+/* Base Styles (Default: Desktop/Two-Column) */
+.login-container {
+  background-color: #ffffff; /* Default background for the whole page */
+}
+
+.left-panel {
+  width: 50%;
+}
+.right-panel {
+  width: 50%;
+  padding: 0 4%; /* Padding for the right panel */
+}
+
+.login-box {
+  background: none; /* No box needed on desktop */
+  max-width: 400px;
+  width: 100%;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+}
+
+.logo-img {
+  max-width: 200px;
   border-radius: 100px;
 }
-</style>
+.welcome-text {
+  font-size: 2.5rem;
+}
+
+/* Hide mobile-specific elements on desktop */
+.logo-img-mobile,
+.welcome-text-mobile {
+  display: none !important;
+}
+
+/* --- Responsive Layout (Max-width: 800px) --- */
+@media (max-width: 800px) {
+  .login-container {
+    background-color: #000020; /* Dark background color for the whole viewport */
+  }
+
+  .left-panel {
+    /* Hide the large left panel on mobile */
+    display: none !important;
+  }
+
+  .right-panel {
+    /* Make the right panel take up the full width and center its content */
+    width: 100% !important;
+    padding: 0 15px !important;
+  }
+
+  .login-box {
+    /* 🟢 White box style for mobile 🟢 */
+    background: #ffffff;
+    max-width: 400px; /* Max width remains the same */
+    width: 90%; /* Ensure it's not too wide on small screens */
+    padding: 30px !important; /* Adjust padding for the white box */
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1) !important;
+    border-radius: 8px !important;
+  }
+  
+  /* Show and style mobile-specific elements */
+  .logo-img-mobile {
+    display: inline-block !important;
+    max-width: 80px; /* Small size */
+    border-radius: 50%;
+  }
+  
+  .welcome-text-mobile {
+    display: block !important;
+    color: #000020; /* Dark text color inside the white box */
+    font-size: 1.25rem;
+  }
+
+  .welcome-text {
+    /* Hide desktop welcome text */
+    display: none !important;
+  }
+}
+</style> -->
