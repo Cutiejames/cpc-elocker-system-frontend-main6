@@ -401,7 +401,7 @@ onMounted(() => {
 
 </script>
 
-<style scoped>
+<!-- <style scoped>
 /* --- BASE TABLE STYLES (Desktop) --- */
 .table-container {
   max-height: 600px;
@@ -461,21 +461,23 @@ tbody tr:hover {
 }
 
 .btn-approve {
-  background-color: #198754;
+  background-color: #0d6efd;
+    color: white;
 }
 .btn-approve:hover:not(:disabled) {
-  background-color: #157347;
+  background-color: #0a4db3;
   transform: scale(1.05);
-  box-shadow: 0 4px 10px rgba(25, 135, 84, 0.4);
+  color: white;
 }
 
 .btn-cancel {
   background-color: #dc3545;
+  color: white;
 }
 .btn-cancel:hover:not(:disabled) {
   background-color: #bb2d3b;
+  color: white;
   transform: scale(1.05);
-  box-shadow: 0 4px 10px rgba(220, 53, 69, 0.4);
 }
 
 button:disabled {
@@ -537,4 +539,4 @@ button:disabled {
     white-space: normal;
   }
 }
-</style>
+</style> -->
