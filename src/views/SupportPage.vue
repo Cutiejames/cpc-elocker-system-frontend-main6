@@ -291,12 +291,36 @@ onMounted(fetchTickets);
 </script>
 
 <style scoped>
+/* 🟢 SCROLLABLE CONTAINER STYLES */
+.ticket-list-container {
+  max-height: 600px;
+  overflow-y: auto;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  padding-right: 5px;
+}
+
+.ticket-list-container::-webkit-scrollbar {
+  width: 6px;
+}
+.ticket-list-container::-webkit-scrollbar-thumb {
+  background-color: #0d6efd;
+  border-radius: 10px;
+}
+.ticket-list-container::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
 .chat-box {
   background: #f9f9f9;
 }
 .list-group-item.active {
   background-color: #0d6efd;
   color: white;
+}
+.list-group > .list-group-item:hover {
+  background-color: #65a3ffd8;
+  color: black;
 }
 
 /* smooth fade + slide animation */
@@ -341,6 +365,109 @@ onMounted(fetchTickets);
 .list-leave-from {
   opacity: 1;
   transform: translateY(0);
+} 
+/* Adjusted layout to prevent sidebar overlap */
+.container-fluid {
+  margin-left: 90px; /* shifts content away from sidebar */
+  max-width: calc(100% - 100px);
 }
 
+.row.g-0.w-100 {
+  width: 98%;
+  margin: 0 auto;
+}
+
+/* Make ticket list and chat area slightly narrower */
+.col-4 {
+  flex: 0 0 30%;
+  max-width: 30%;
+}
+
+.col-8 {
+  flex: 0 0 68%;
+  max-width: 68%;
+  margin-left: 2%;
+}
+
+/* Make chat box align a bit to the right */
+.col-8 .chat-box {
+  margin-left: 5px;
+}
+
+/* --- MOBILE STYLES (Max-width: 800px) --- */
+@media (max-width: 800px) {
+  /* Hide the desktop's two-column layout */
+  .col-4.border-end,
+  .col-8 {
+    display: none !important;
+  }
+
+  /* Ensure mobile column is visible */
+  .col-12 {
+    display: flex !important;
+    min-height: 100vh;
+  }
+
+  /* New style for mobile ticket list container - makes it scrollable */
+  .ticket-list-mobile-container {
+    max-height: calc(100vh - 270px); /* Adjusted for the new ticket form */
+    overflow-y: auto;
+  }
+
+  .list-group-item.list-group-item-action.w-100 {
+    width: 95% !important;
+    margin-left: auto;
+    font-size: 0.9em;
+  }
+
+  .list-group {
+    padding-right: 5px;
+  }
+
+  .ticket-list-mobile-container::-webkit-scrollbar {
+    width: 6px;
+  }
+  .ticket-list-mobile-container::-webkit-scrollbar-thumb {
+    background-color: #0d6efd;
+    border-radius: 10px;
+  }
+  .ticket-list-mobile-container::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+
+  .mobile-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: white;
+    z-index: 2000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .mobile-chat-container {
+    background: #fff;
+    width: 100%;
+    height: 100vh;
+    border-radius: 0;
+    box-shadow: none;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .chat-box.mobile-messages {
+    height: auto;
+    border: none !important;
+    border-radius: 0;
+    padding: 15px 10px;
+  }
+
+  .container-fluid {
+    margin-left: 0;
+    max-width: 100%;
+  }
+}
 </style>
