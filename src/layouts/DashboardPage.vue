@@ -576,5 +576,10 @@ a.sidebar-link.router-link-active {
   opacity: 0;
   transform: translateY(10px);
 }
-
+/* .modal-header {
+  background-color: #0d6efd;
+} 
+.modal-title{
+  color: white;
+} */
 </style>
